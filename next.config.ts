@@ -1,13 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',  // Enables static HTML export
-  basePath: '/jam0ra.github.io', // Your repository name
+  output: 'export',
   images: {
     unoptimized: true,
   },
-  // Disable server-side features since GitHub Pages is static
   trailingSlash: true,
+  webpack: (config) => {
+    config.resolve.extensionAlias = {
+      '.js': ['.js', '.ts', '.tsx']
+    };
+    return config;
+  }
 };
 
 export default nextConfig;

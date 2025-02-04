@@ -11,7 +11,7 @@ interface AdaptiveNavProps {
 const AdaptiveNav: React.FC<AdaptiveNavProps> = ({ children, className = '' }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   useEffect(() => {
     const checkDevice = () => {
@@ -39,43 +39,37 @@ const AdaptiveNav: React.FC<AdaptiveNavProps> = ({ children, className = '' }) =
 
 // iPadOS-style sidebar
 if (isTablet) {
-    return (
-      <>
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="fixed top-4 left-4 z-50 p-2 rounded-xl bg-[#2A2A2A]/95 backdrop-blur-lg hover:bg-[#1E90FF]/10 focus:outline-none focus:ring-2 focus:ring-[#1E90FF]"
-          aria-label="Toggle navigation menu"
-          aria-expanded={isMenuOpen}
-        >
-          <Menu className={`h-6 w-6 transition-transform duration-300 ${isMenuOpen ? 'rotate-90' : ''}`} />
-        </button>
+  return (
+    <>
+      <button
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="fixed left-0 top-0 w-20 h-16 z-50 hover:bg-[#1E90FF]/10 focus:outline-none focus:ring-2 focus:ring-[#1E90FF] transition-colors flex items-center justify-center"
+        aria-label="Toggle navigation menu"
+      >
+        <Menu className="h-6 w-6 text-gray-400" />
+      </button>
 
-        {/* Overlay for closing menu when clicking outside */}
-        {isMenuOpen && (
-          <div
-            className="fixed inset-0 bg-black/20 z-40 sm:hidden"
-            onClick={() => setIsMenuOpen(false)}
-            aria-hidden="true"
-          />
-        )}
+      {/* Overlay for closing menu when clicking outside */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/20 z-40 sm:hidden"
+          onClick={() => setIsMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
-        {/* Sidebar */}
-        <nav 
-          className={`fixed left-0 top-0 bottom-0 w-[280px] sm:w-20 bg-[#2A2A2A]/95 backdrop-blur-lg border-r border-white/10 p-4 flex flex-col items-center transition-transform duration-300 ease-in-out z-40
-            ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-        >
-          <div className="text-center mb-4 text-sm text-gray-400">
-            <div className="w-10 h-10 rounded-full bg-[#1E90FF]/20 mx-auto mb-2 flex items-center justify-center">
-              <span>JJ</span>
-            </div>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            {children}
-          </div>
-        </nav>
-      </>
-    );
-  }
+      {/* Sidebar */}
+      <nav 
+        className={`fixed left-0 top-0 bottom-0 w-[280px] sm:w-20 bg-[#2A2A2A]/95 backdrop-blur-lg border-r border-white/10 p-4 flex flex-col items-center transition-transform duration-300 ease-in-out z-40
+          ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        <div className="flex flex-col items-center space-y-2 mt-16"> {/* Added mt-16 here */}
+          {children}
+        </div>
+      </nav>
+    </>
+  );
+}
 
   // macOS-style sidebar for desktop
   return (

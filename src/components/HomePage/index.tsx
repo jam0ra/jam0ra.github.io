@@ -53,15 +53,15 @@ export default function HomePage() {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && window.scrollY > 0) {  // Only update if we've scrolled
           setActiveSection(entry.target.id);
         }
       });
     }, { 
       threshold: 0.5,
-      rootMargin: isMobile ? '-60px 0px 0px 0px' : '0px' // Adjust for mobile nav
+      rootMargin: isMobile ? '-60px 0px 0px 0px' : '0px' // Keep the mobile nav adjustment
     });
-
+  
     const sections = document.querySelectorAll('section');
     
     const handleScroll = () => {
@@ -69,10 +69,13 @@ export default function HomePage() {
         setActiveSection('home');
       }
     };
-
+  
     window.addEventListener('scroll', handleScroll);
     sections.forEach((section) => observer.observe(section));
-
+  
+    // Set initial active section
+    setActiveSection('home');
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
       sections.forEach((section) => observer.unobserve(section));

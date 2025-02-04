@@ -9,8 +9,7 @@ import {
   Briefcase, 
   Code, 
   Wrench, 
-  GraduationCap, 
-  Phone,
+  GraduationCap,
   User,
   Home
 } from 'lucide-react';
@@ -22,12 +21,12 @@ export default function HomePage() {
     
   const [activeSection, setActiveSection] = useState('home');
   const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
 
   useEffect(() => {
     const checkDevice = () => {
       setIsMobile(window.matchMedia('(max-width: 640px)').matches);
     };
+    
     checkDevice();
     window.addEventListener('resize', checkDevice);
     return () => window.removeEventListener('resize', checkDevice);
@@ -128,13 +127,14 @@ export default function HomePage() {
       </AdaptiveNav>
 
       <main 
-      className={`
-        transition-all duration-300
-        ${isMobile ? 'mb-16 p-4' : ''} 
-        ${isTablet ? 'ml-0 sm:ml-20 p-6' : ''}
-        ${!isMobile && !isTablet ? 'ml-20 p-8' : ''}
-      `}
-        >
+        className={`
+          transition-all duration-300
+          ${isMobile 
+            ? 'mb-16 p-4' // Mobile styles
+            : 'ml-20 p-6 sm:p-8' // Desktop and tablet styles
+          }
+        `}
+      >
         <div className="max-w-6xl mx-auto bg-[#232323] rounded-xl shadow-2xl overflow-hidden">
           <header className="flex items-center px-4 h-12 bg-[#2A2A2A] border-b border-[#363636]" role="banner">
             <div className="flex space-x-2" aria-hidden="true">
